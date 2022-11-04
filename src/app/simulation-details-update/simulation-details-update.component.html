@@ -1,0 +1,56 @@
+<app-top-bar></app-top-bar>
+<div class="container bootstrap snippets bootdey" id="main-container">
+<div class="row">
+<div class="col-lg-12">
+<div class="main-box clearfix">
+<div class="main-box-body clearfix">
+    <div class="modal-header">
+        <h5 class="modal-title" id="updateSimulationModalLabel">Edytuj symulację {{updateSimulation?.name}}</h5>
+        <button [routerLink]="['/simulations', updateSimulation.id]" type="button" id="update-simulation-form" class="btn btn-secondary" data-dismiss="modal">Wróć</button>
+    </div>
+        <div class="modal-body">
+            <form #updateForm="ngForm">
+                <input type="hidden" ngModel="{{updateSimulation?.id}}" name="id" class="form-control" id="id" required>
+            <div class="form-group">
+            <label for="name">Nazwa symulacji</label>
+            <input type="text" ngModel="{{updateSimulation?.name}}" name="name" class="form-control" id="name" placeholder="np. Symulacja" required>
+            </div>
+            <div class="form-group">
+            <label for="p">P - wielkość populacji</label>
+            <input type="number" step="1" min="1" ngModel="{{updateSimulation?.p}}" name="p" class="form-control" id="p" placeholder="np. 10000" required>
+            </div>
+            <div class="form-group">
+                <label for="i">I - początkowa liczba osób zarażonych</label>
+                <input type="number" step="1" min="1" ngModel="{{updateSimulation?.i}}" name="i" class="form-control" id="i" placeholder="np. 5" required>
+            </div>
+            <div class="form-group">
+                <label for="r">R - wskaźnik określający ile osób zaraża jedna zarażona osoba</label>
+                <input type="number" min="0.000001" ngModel="{{updateSimulation?.r}}" name="r" class="form-control" id="r" placeholder="np. 1,25" required>
+            </div>
+            <div class="form-group">
+                <label for="m">M - wskaźnik śmiertelności, określający ilu spośród zarażonych umiera</label>
+                <input type="number" min="0.000001" ngModel="{{updateSimulation?.m}}" name="m" class="form-control" id="m" placeholder="np. 0,8" required>
+            </div>
+            <div class="form-group">
+                <label for="ti">Ti - ilość dni, która upływa od momentu zarażenia do wyzdrowienia chorego</label>
+                <input type="number" step="1" min="1" ngModel="{{updateSimulation?.ti}}" name="ti" class="form-control" id="ti" placeholder="np. 14" required>
+            </div>
+            <div class="form-group">
+                <label for="tm">Tm - ilość dni, która upływa od momentu zarażenia do śmierci chorego</label>
+                <input type="number" step="1" min="1" ngModel="{{updateSimulation?.tm}}" name="tm" class="form-control" id="tm" placeholder="np. 10" required>
+            </div>
+            <div class="form-group">
+                <label for="p">Ts - Ilość dni, dla których ma być przeprowadzona symulacja</label>
+                <input type="number" step="1" min="1" ngModel="{{updateSimulation?.ts}}" name="ts" class="form-control" id="ts" placeholder="np. 100" required>
+            </div>
+            <div class="modal-footer">
+            <button [routerLink]="['/simulations', updateSimulation.id]" type="button" id="update-simulation-form" class="btn btn-secondary" data-dismiss="modal">Anuluj</button>
+            <button (click)="onUpdateSimulation(updateForm.value)" [disabled]="updateForm.invalid" type="submit" class="btn btn-primary">Zapisz zmiany</button>
+            </div>
+        </form>
+    </div>
+</div>
+</div>
+</div>
+</div>
+</div>

@@ -1,0 +1,148 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+    <span class="navbar-brand" style="color:white;">Symulator Epidemii</span>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarColor02" aria-controls="navbarColor02" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarColor02">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" (click)="onOpenModal(null!, 'add')">Dodaj symulację</a>
+            </li>
+        </ul>
+        
+        <!-- <form class="form-inline my-2 my-lg-0">
+            <input name="key" id="searchName" class="form-control mr-sm-2" placeholder="Szukaj symulacji..." required>
+        </form> -->
+    </div>
+</nav>
+<app-left-bar></app-left-bar>
+<div class="container bootstrap snippets bootdey" id="main-container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="main-box clearfix">
+                <div class="main-box-body clearfix">
+                    <div class="table-responsive">
+                        <table class="table simulation-list">
+                            <thead>
+                                <tr>
+                                    <th class="simulation-name"><span>Symulacja</span></th>
+                                    <th><span>P</span></th>
+                                    <th><span>I</span></th>
+                                    <th><span>R</span></th>
+                                    <th><span>M</span></th>
+                                    <th><span>Ti</span></th>
+                                    <th><span>Tm</span></th>
+                                    <th><span>Ts</span></th>
+                                    <th><span></span></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let simulation of simulations">
+                                    <td class="simulation-name">
+                                        <h4 [routerLink]="['/simulations', simulation.id]">{{ simulation?.name }}</h4>
+                                    </td>
+                                    <td>{{ simulation?.p }}</td>
+                                    <td>{{ simulation?.i }}</td>
+                                    <td>{{ simulation?.r }}</td>
+                                    <td>{{ simulation?.m }}</td>
+                                    <td>{{ simulation?.ti }}</td>
+                                    <td>{{ simulation?.tm }}</td>
+                                    <td>{{ simulation?.ts }}</td>
+                                    <td>
+                                        <a [routerLink]="['/simulations', simulation.id]" class="table-link text-warning">
+                                            <span class="fa-stack">
+                                                <i class="fa fa-square fa-stack-2x"></i>
+                                                <i class="fa fa-search-plus fa-stack-1x fa-inverse"></i>
+                                            </span>
+                                        </a>
+                                        <a class="table-link danger" (click)="onOpenModal(simulation, 'delete')">
+                                            <span class="fa-stack">
+                                                <i class="fa fa-square fa-stack-2x"></i>
+                                                <i class="fa fa-trash-o fa-stack-1x fa-inverse"></i>
+                                            </span>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Add Simulation Modal -->
+<div class="modal fade" id="addSimulationModal" tabindex="-1" role="dialog" aria-labelledby="addSimulationModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 class="modal-title" id="addSimulationModalLabel">Dodaj Symulację</h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+            </button>
+         </div>
+         <div class="modal-body">
+            <form #addForm="ngForm" (ngSubmit)="onAddSimulation(addForm)">
+            <div class="form-group">
+               <label for="name">Nazwa symulacji</label>
+               <input type="text" ngModel name="name" class="form-control" id="name" placeholder="np. Symulacja" required>
+            </div>
+            <div class="form-group">
+               <label for="p">P - wielkość populacji</label>
+               <input type="number" step="1" min="1" ngModel name="p" class="form-control" id="p" placeholder="np. 10000" required>
+            </div>
+            <div class="form-group">
+                <label for="i">I - początkowa liczba osób zarażonych</label>
+                <input type="number" step="1" min="1" ngModel name="i" class="form-control" id="i" placeholder="np. 5" required>
+            </div>
+            <div class="form-group">
+                <label for="r">R - wskaźnik określający ile osób zaraża jedna zarażona osoba</label>
+                <input type="number" step="0.0000001" min="0.0000001" ngModel name="r" class="form-control" id="r" placeholder="np. 1,25" required>
+            </div>
+            <div class="form-group">
+                <label for="m">M - wskaźnik śmiertelności, określający ilu spośród zarażonych umiera</label>
+                <input type="number" step="0.0000001" min="0.0000001" ngModel name="m" class="form-control" id="m" placeholder="np. 0,8" required>
+            </div>
+            <div class="form-group">
+                <label for="ti">Ti - ilość dni, która upływa od momentu zarażenia do wyzdrowienia chorego</label>
+                <input type="number" step="1" min="1" ngModel name="ti" class="form-control" id="ti" placeholder="np. 14" required>
+            </div>
+            <div class="form-group">
+                <label for="tm">Tm - ilość dni, która upływa od momentu zarażenia do śmierci chorego</label>
+                <input type="number" step="1" min="1" ngModel name="tm" class="form-control" id="tm" placeholder="np. 10" required>
+            </div>
+            <div class="form-group">
+                <label for="p">Ts - Ilość dni, dla których ma być przeprowadzona symulacja</label>
+                <input type="number" step="1" min="1" ngModel name="ts" class="form-control" id="ts" placeholder="np. 100" required>
+            </div>
+            <div class="modal-footer">
+               <button type="button" id="add-simulation-form" class="btn btn-secondary" data-dismiss="modal">Zamknij</button>
+               <button [disabled]="addForm.invalid" type="submit" class="btn btn-primary" >Zapisz zmiany</button>
+            </div>
+            </form>
+         </div>
+      </div>
+    </div>
+</div>
+
+<!-- Delete Modal -->
+<div class="modal fade" id="deleteSimulationModal" tabindex="-1" role="dialog" aria-labelledby="deleteModelLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteModelLabel">Usuń symulację {{ deleteSimulation?.name }}</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <p>Czy na pewno chcesz usunąć symulację {{ deleteSimulation?.name }}?</p>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">No</button>
+                    <button (click)="onDeleteSimulation(deleteSimulation.id)" class="btn btn-danger" data-dismiss="modal">Yes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

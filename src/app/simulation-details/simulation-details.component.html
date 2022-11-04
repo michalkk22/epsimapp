@@ -1,0 +1,108 @@
+<app-top-bar></app-top-bar>
+
+<app-left-bar></app-left-bar>
+
+<div class="container bootstrap snippets bootdey" id="main-container">
+    <div class="row">
+        <div class="col-lg-12">
+            <div class="main-box clearfix">
+                <div class="main-box-body clearfix">
+                    <div class="table-responsive">
+                        <table class="table simulation-list">
+                            <thead>
+                                <tr>
+                                    <th class="simulation-name"><span>Symulacja</span></th>
+                                    <th><span>P</span></th>
+                                    <th><span>I</span></th>
+                                    <th><span>R</span></th>
+                                    <th><span>M</span></th>
+                                    <th><span>Ti</span></th>
+                                    <th><span>Tm</span></th>
+                                    <th><span>Ts</span></th>
+                                    <th><span></span></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngIf="simulation">
+                                    <td class="simulation-name">
+                                        <h4>{{ simulation?.name }}</h4>
+                                    </td>
+                                    <td>{{ simulation?.p }}</td>
+                                    <td>{{ simulation?.i }}</td>
+                                    <td>{{ simulation?.r }}</td>
+                                    <td>{{ simulation?.m }}</td>
+                                    <td>{{ simulation?.ti }}</td>
+                                    <td>{{ simulation?.tm }}</td>
+                                    <td>{{ simulation?.ts }}</td>
+                                    <td>
+                                        <a [routerLink]="['/update', simulation.id]" class="table-link text-info">
+                                            <span class="fa-stack">
+                                                <i class="fa fa-square fa-stack-2x"></i>
+                                                <i class="fa fa-pencil fa-stack-1x fa-inverse"></i>
+                                            </span>
+                                        </a>
+                                        <a onClick="window.location.reload();" id="refresh-button" [routerLink]="['/simulations', simulation.id]" class="table-link">
+                                            <span class="fa-stack">
+                                                <i class="fa fa-square fa-stack-2x"></i>
+                                                <i class="fa fa-rotate-left fa-stack-1x fa-inverse"></i>
+                                            </span>
+                                        </a>
+                                        <a [routerLink]="['/']" class="table-link text-warning">
+                                            <span class="fa-stack">
+                                                <i class="fa fa-square fa-stack-2x"></i>
+                                                <i class="fa fa-arrow-left fa-stack-1x fa-inverse"></i>
+                                            </span>
+                                        </a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="chart-box details-box">
+                        <h4>Wykres {{ simulation?.name }}</h4>
+                        <app-chart></app-chart>
+                    </div>
+                    <div class="details-box details-table-box">
+                        <h4>{{ simulation?.name }} dzień po dniu</h4>
+                        <div class="srearch-box">
+                            <form class="form-inline my-2 my-lg-0">
+                                <span class="search-span">
+                                    Pokaż od 
+                                    <input type="number" (ngModelChange)="filterDaysByNumberOfDay(searchFrom.value,searchTo.value)" #searchFrom="ngModel" min="1" step="1" ngModel name="searchFrom" id="searchFrom" class="form-control mr-sm-2" placeholder="dnia..." required>
+                                </span>
+                                <span class="search-span">
+                                    do 
+                                    <input type="number" (ngModelChange)="filterDaysByNumberOfDay(searchFrom.value,searchTo.value)" #searchTo="ngModel" min="1" step="1" ngModel name="searchTo" id="searchTo" class="form-control mr-sm-2" placeholder="dnia..." required>
+                                </span>
+                            </form>
+                        </div>
+                        <div class="table-responsive">
+                            <table class="table simulation-list">
+                                <thead>
+                                    <tr>
+                                        <th class="simulation-name"><span>Dzień</span></th>
+                                        <th><span>Pi</span></th>
+                                        <th><span>Pv</span></th>
+                                        <th><span>Pm</span></th>
+                                        <th><span>Pr</span></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let day of filteredDays">
+                                        <td class="simulation-name">
+                                            {{ day?.numberOfDay }}
+                                        </td>
+                                        <td>{{ day?.pi }}</td>
+                                        <td>{{ day?.pv }}</td>
+                                        <td>{{ day?.pm }}</td>
+                                        <td>{{ day?.pr }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
